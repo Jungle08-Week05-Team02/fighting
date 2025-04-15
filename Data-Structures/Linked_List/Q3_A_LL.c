@@ -86,8 +86,37 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+    /*
+    연결 리스트 내의 모든 홀수 노드를 리스트의 뒤로 이동시킨다.
+    짝수 노드들의 순서는 그대로 유지되며,
+    홀수 노드들도 순서를 유지한 채 뒤에 이어 붙인다.
+    노드를 복사하거나 새로 만들지 않고 포인터만 재구성한다.
+    */
+
+	if (ll->head == NULL || ll == NULL) return;
+
+	int n = 0;
+	int realsize = ll->size;
+	int temp;
+	int count = 0;
+
+	ListNode *cur;
+
+	while(count < realsize && n < realsize){
+		cur = findNode(ll, n);
+
+		if (cur->item % 2 != 0){
+			temp = cur -> item;
+			removeNode(ll, n);
+			insertNode(ll, ll->size, temp);
+			count++;
+		} else 
+			n++;
+	}
 }
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
