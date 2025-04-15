@@ -96,6 +96,7 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+	// 여기서는 insertNode함수를 썼지만, 사실 그러면 한번 더 순회하면서 넣을 곳을 찾게 되서 최적화를 위해서는 다른 방법 쓰는 게 좋다 
 	// 입력받은 정수 item을 오름차순 정렬 상태를 유지하면서 연결 리스트에 삽입한다.
 	// 이미 리스트에 존재하는 값이라면 삽입하지 않고 -1을 반환한다.
 	// 삽입에 성공했다면 해당 값이 삽입된 index를 반환한다.

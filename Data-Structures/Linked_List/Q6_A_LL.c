@@ -89,6 +89,29 @@ int main()
 int moveMaxToFront(ListNode **ptrHead)
 {
     /* add your code here */
+	// 연결 리스트에서 가장 큰 값을 가진 노드를 찾아 맨 앞으로 이동시킨다.
+	// 리스트는 최대 한 번만 순회하며,
+	// 이미 맨 앞에 있는 경우는 그대로 둔다.
+	// (성공 시 0을 반환하며, 리스트가 비어 있으면 -1을 반환한다. (명시적 조건은 아니지만 비어있을 경우 -1, 정상 동작 시 0 반환이 관례))
+
+	if ((*ptrHead) == NULL || ((*ptrHead)->next == NULL)) return -1;
+	ListNode *save = *ptrHead;
+	ListNode *cur = *ptrHead; 
+	ListNode *prev = NULL; // 초기화 해주는 게 좋음
+	while (cur->next != NULL){ // 끝까지 검사
+		if (cur->next->item > save->item){ // item 큰 값 나오면 save를 그 노드 주소로 바꿔주고 prev도 업데이트
+			save = cur->next;
+			prev = cur;
+		}
+		cur = cur->next;			
+	}
+	if (save != *ptrHead && prev !=NULL){ // 맨 앞에 제일 큰 게 있을 경우 방지를 위해 prev 검사 조건도 넣어주기
+		prev->next = prev->next->next; // prev가 가리키는 노드의 next를 다다음 걸로 바꿔주고
+		save->next = *ptrHead; // save의 next가 원래의 첫번째 노드 가리키게 하기
+		*ptrHead = save; // linked list head 업데이트
+	}
+	return 0;
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////

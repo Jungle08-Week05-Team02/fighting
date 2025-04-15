@@ -91,6 +91,7 @@ void moveOddItemsToBack(LinkedList *ll)
     짝수 노드들의 순서는 그대로 유지되며,
     홀수 노드들도 순서를 유지한 채 뒤에 이어 붙인다.
     노드를 복사하거나 새로 만들지 않고 포인터만 재구성한다.
+	사실 여기 있는 함수 써서 하면 더 쉽긴함 
     */
 
 	if (ll->head == NULL || ll == NULL) return;

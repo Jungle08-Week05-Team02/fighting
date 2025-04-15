@@ -138,6 +138,7 @@ void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 // void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 // {
 //     /* add your code here */
+//     // 포인터를 왔다갔다하면서 하는 게 사실 더 좋은 방법임
 //     // 1. temp를 선언하고 ll2의 head의 next를 가리킴
 //     // 2. ll2의 head의 next가 ll1의 head의 next를 가리킴
 //     // 3. ll1의 head의 next가 ll2의 head를 가리킴

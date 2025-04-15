@@ -86,6 +86,7 @@ int main()
 
 void moveEvenItemsToBack(LinkedList *ll)
 {
+	// 이전 문제와는 다르게 여기 함수 안쓰고 포인터만 조작한 버전 
     if (ll == NULL || ll->head == NULL) return;
 
     ListNode *cur = ll->head;
@@ -103,7 +104,11 @@ void moveEvenItemsToBack(LinkedList *ll)
     {
         ListNode *next = cur->next;
 
-        if (cur->item % 2 == 0)  // 짝수면 뒤로 이동
+		// 1. cur을 리스트에서 제거
+        // 2. real_end 뒤에 붙이기
+        // 3. cur = next
+        // 4. i++ (처리한 노드 수를 셈)
+        if (cur->item % 2 == 0) 
         {
             // 연결 끊기
             if (cur == ll->head)
@@ -116,7 +121,6 @@ void moveEvenItemsToBack(LinkedList *ll)
                 prev->next = next;
             }
 
-            // 뒤에 붙이기
             real_end->next = cur;
             cur->next = NULL;
             real_end = cur;

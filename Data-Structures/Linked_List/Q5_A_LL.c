@@ -41,6 +41,7 @@ int main()
 	int c, i;
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
+	c=1;
 
 	//Initialize the linked list as an empty linked list
 	ll.head = NULL;
@@ -103,7 +104,62 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
+	// 현재 연결 리스트를 앞/뒤 절반으로 나눈다.
+	// 요소 개수가 홀수일 경우, 앞 리스트(frontList)에 하나 더 들어간다.
+	// 원본 리스트는 건드리지 않고, 결과는 두 개의 리스트(resultFrontList, resultBackList)에 저장한다.
+	// 결과 리스트의 순서는 원본 순서를 그대로 유지한다.
+	// insertNode써서 원본 노드 복사해서 넣어야 함을 유의!(main함수 보면 따로 free 해줌)
+
+	if (ll == NULL || ll->head == NULL) return;
+
+	int i = ll->size / 2;
+	ListNode *cur = ll->head;
+	
+	
+	if (ll->size % 2 == 0){
+		for (int idx=0; idx<i; idx++){
+			insertNode(resultFrontList, idx, cur->item);
+			cur = cur->next;
+		}
+		for (int idx=0; idx<i; idx++){
+			insertNode(resultBackList, idx, cur->item);
+			cur = cur->next;
+		}
+	}
+	else {
+		for (int idx=0; idx<(i+1); idx++){
+			insertNode(resultFrontList, idx, cur->item);
+			cur = cur->next;
+		}
+		for (int idx=0; idx<i; idx++){
+			insertNode(resultBackList, idx, cur->item);
+			cur = cur->next;
+		}
+	}	
 }
+
+// 중복되는 구조 없앤 최적화 버전
+// void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
+// {
+
+//     if (ll == NULL || ll->head == NULL) return;
+//     int total = ll->size;
+//     int frontCount = (total + 1) / 2;  // 홀수일 때 앞에 하나 더 배정
+//     int backCount = total - frontCount;
+//     ListNode *cur = ll->head;
+//     // 앞 리스트에 넣기
+//     for (int idx = 0; idx < frontCount && cur != NULL; idx++) {
+//         insertNode(resultFrontList, idx, cur->item);
+//         cur = cur->next;
+//     }
+//     // 뒤 리스트에 넣기
+//     for (int idx = 0; idx < backCount && cur != NULL; idx++) {
+//         insertNode(resultBackList, idx, cur->item);
+//         cur = cur->next;
+//     }
+// }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
