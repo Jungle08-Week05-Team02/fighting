@@ -88,6 +88,18 @@ int main()
 void RecursiveReverse(ListNode **ptrHead)
 {
 	/* add your code here */
+	// 연결 리스트를 재귀적으로 뒤집는다.
+	// 각 노드의 next 포인터를 반대로 연결하고, head 포인터도 갱신한다.
+
+	if(*ptrHead == NULL||(*ptrHead)->next == NULL) return;
+
+	ListNode *cur = *ptrHead; //현재 노드를 저장하는 메모리의 주소를 저장하는 포인터
+	ListNode *next = cur->next;
+	RecursiveReverse(&next);
+
+	cur->next->next = cur;
+	cur->next = NULL;
+	*ptrHead = next; // 맨끝 노드를 계속 넘김(head에 저장할 수 있게)
 }
 
 //////////////////////////////////////////////////////////////////////////////////
