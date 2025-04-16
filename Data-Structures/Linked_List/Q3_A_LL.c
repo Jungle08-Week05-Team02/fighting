@@ -35,6 +35,42 @@ ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+void createHardCodedList(LinkedList *ll) {
+    // 2, 3, 4, 7, 15, 18 값을 가진 노드를 순차적으로 연결
+    ListNode *node1 = (ListNode *)malloc(sizeof(ListNode));
+    node1->item = 1;
+    node1->next = NULL;
+
+    ListNode *node2 = (ListNode *)malloc(sizeof(ListNode));
+    node2->item = 3;
+    node2->next = NULL;
+
+    ListNode *node3 = (ListNode *)malloc(sizeof(ListNode));
+    node3->item = 5;
+    node3->next = NULL;
+
+    // ListNode *node4 = (ListNode *)malloc(sizeof(ListNode));
+    // node4->item = 7;
+    // node4->next = NULL;
+
+    // ListNode *node5 = (ListNode *)malloc(sizeof(ListNode));
+    // node5->item = 15;
+    // node5->next = NULL;
+
+    // ListNode *node6 = (ListNode *)malloc(sizeof(ListNode));
+    // node6->item = 18;
+    // node6->next = NULL;
+
+    // 연결 리스트 구성
+    ll->head = node1;
+    node1->next = node2;
+    node2->next = node3;
+    // node3->next = node4;
+    // node4->next = node5;
+    // node5->next = node6;
+    ll->size = 6;
+}
+
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
@@ -46,6 +82,7 @@ int main()
 	ll.head = NULL;
 	ll.size = 0;
 
+	createHardCodedList(&ll);
 
 	printf("1: Insert an integer to the linked list:\n");
 	printf("2: Move all odd integers to the back of the linked list:\n");
@@ -87,6 +124,72 @@ int main()
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+
+	// 1. cur 포인터 선언, 헤드를 가리킴
+	// 2. tail 포인터 선언, 테일 노드를 가리킴 (tail->next null이면 stop)
+	// 3. cur이 가리키는 노드의 item이 짝수이면, cur에 cur->next 할당, 홀수이면 end노드가 cur이 가리키는 노드를 가리키도록 설정
+	// 4. end->next = cur
+	// 5. cur -> next = cur->next->next
+	// 6. cur = cur-> next
+	// 7. end= end->next
+	// 8. end->next = null
+
+
+		if (ll == NULL || ll->head == NULL || ll->head->next == NULL) 
+			return;  // 리스트가 비어 있거나 노드가 하나뿐이면 처리 불필요
+		
+		ListNode *cur = ll->head;
+		ListNode *prev = NULL;
+		ListNode *tail = ll->head;
+		
+		
+		while (tail->next != NULL) {
+			tail = tail->next;
+		}
+		
+		
+		
+		// 리스트를 한 번만 순회하면서 홀수 노드를 뒤로 이동
+		int count = 0;  // 처리한 노드 수를 카운트
+		int totalNodes = ll->size;  // 리스트의 총 노드 수
+		
+		while (cur != NULL && count < totalNodes) {
+			count++;
+			
+			if (cur->item % 2 != 0) {  // 홀수인 경우
+				
+				// 홀수 노드가 헤드인 경우
+				if (prev == NULL) {
+					ll->head = cur->next;  // 헤드 업데이트
+					
+					// 현재 노드를 마지막으로 이동
+					tail->next = cur;
+					cur->next = NULL;
+					tail = cur;
+					
+					// 현재 포인터 업데이트
+					cur = ll->head;
+				} else {
+					// 현재 노드가 헤드가 아닌 경우
+					ListNode *temp = cur->next;  // 다음 노드 저장
+					
+					// 현재 노드를 리스트에서 제거
+					prev->next = temp;
+					
+					// 현재 노드를 마지막으로 이동
+					tail->next = cur;
+					cur->next = NULL;
+					tail = cur;
+					
+					// 현재 포인터 업데이트
+					cur = temp;
+				}
+			} else {  // 짝수인 경우
+				prev = cur;
+				cur = cur->next;
+			}
+		}
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

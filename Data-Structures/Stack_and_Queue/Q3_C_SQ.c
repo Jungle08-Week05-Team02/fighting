@@ -57,6 +57,15 @@ int main()
 	s.ll.size =0;
 	s.ll.tail =NULL;
 
+	    // 스택에 하드코딩으로 값 삽입 (push는 새 값을 head에 추가)
+    // 순서: 먼저 삽입한 값은 바닥에 위치하고, 마지막에 삽입한 값이 최상단이 됨.
+    push(&s, 1);    // 스택: 4
+    push(&s, 5);    // 스택: 5 -> 4
+    push(&s, 10);   // 스택: 10 -> 5 -> 4
+    push(&s, 11);   // 스택: 11 -> 10 -> 5 -> 4
+    push(&s, 15);   // 스택: 15 -> 11 -> 10 -> 5 -> 4
+    push(&s, 16);   // 스택: 16 -> 15 -> 11 -> 10 -> 5 -> 4
+
     c =1;
 
     printf("1: Insert an integer into the stack:\n");
@@ -104,6 +113,27 @@ int main()
 int isStackPairwiseConsecutive(Stack *s)
 {
   /* add your code here */
+  if (s->ll.size % 2 != 0){
+	return 0;
+  }
+
+  ListNode* cur = s->ll.head;
+  ListNode* cur_nxt = s->ll.head->next;
+
+  while (1)
+  {
+	if (cur->item - cur_nxt->item != 1){
+		return 0;
+	}
+	
+	cur = cur->next->next;
+	if (cur == NULL){
+		return 1;
+	}
+	cur_nxt = cur_nxt ->next ->next;
+
+  }
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////

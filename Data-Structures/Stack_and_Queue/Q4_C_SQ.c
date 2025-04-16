@@ -65,12 +65,23 @@ int main()
 
     Queue q;
 
+
+	
     //initialize the queue
 	q.ll.head =NULL;
 	q.ll.size =0;
 	q.ll.tail=NULL;
 
     c =1;
+
+	// 큐에 하드코딩으로 값 삽입 
+    
+    enqueue(&q, 1);    
+    enqueue(&q, 2);  
+    enqueue(&q, 3);   
+    enqueue(&q, 4);   
+    enqueue(&q, 5);   
+    
 
     printf("1: Insert an integer into the queue;\n");
     printf("2: Reverse the queue;\n");
@@ -113,6 +124,27 @@ int main()
 void reverse(Queue *q)
 {
 /* add your code here */
+	//initialize the stack
+	Stack s;
+	s.ll.head=NULL;
+	s.ll.size =0;
+	s.ll.tail =NULL;
+
+	
+
+	while (q->ll.size != 0){
+		push(&s,dequeue(q));
+	}
+
+	while (s.ll.size != 0)
+	{
+		enqueue(q,pop(&s));
+	}
+	
+
+
+
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

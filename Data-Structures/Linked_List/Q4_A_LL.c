@@ -87,6 +87,72 @@ int main()
 void moveEvenItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+
+	// 1. cur 포인터 선언, 헤드를 가리킴
+	// 2. last 포인터 선언, 테일 노드를 가리킴 (last->next null이면 stop)
+	// 3. cur이 가리키는 노드의 item이 짝수이면, cur에 cur->next 할당, 홀수이면 end노드가 cur이 가리키는 노드를 가리키도록 설정
+	// 4. end->next = cur
+	// 5. cur -> next = cur->next->next
+	// 6. cur = cur-> next
+	// 7. end= end->next
+	// 8. end->next = null
+
+
+	if (ll == NULL || ll->head == NULL || ll->head->next == NULL) 
+	return;  // 리스트가 비어 있거나 노드가 하나뿐이면 처리 불필요
+
+ListNode *cur = ll->head;
+ListNode *prev = NULL;
+ListNode *tail = ll->head;
+
+// 먼저 마지막 노드(tail)를 찾습니다
+while (tail->next != NULL) {
+	tail = tail->next;
+}
+
+
+
+// 리스트를 한 번만 순회하면서 홀수 노드를 뒤로 이동
+int count = 0;  // 처리한 노드 수를 카운트
+int totalNodes = ll->size;  // 리스트의 총 노드 수
+
+while (cur != NULL && count < totalNodes) {
+	count++;
+	
+	if (cur->item % 2 == 0) {  //짝수인 경우
+		
+		// 현재 노드가 헤드인 경우
+		if (prev == NULL) {
+			ll->head = cur->next;  // 헤드 업데이트
+			
+			// 현재 노드를 마지막으로 이동
+			tail->next = cur;
+			cur->next = NULL;
+			tail = cur;
+			
+			// 현재 포인터 업데이트
+			cur = ll->head;
+		} else {
+			// 현재 노드가 헤드가 아닌 경우
+			ListNode *temp = cur->next;  // 다음 노드 저장
+			
+			// 현재 노드를 리스트에서 제거
+			prev->next = temp;
+			
+			// 현재 노드를 마지막으로 이동
+			tail->next = cur;
+			cur->next = NULL;
+			tail = cur;
+			
+			// 현재 포인터 업데이트
+			cur = temp;
+		}
+	} else {  // 짝수인 경우
+		prev = cur;
+		cur = cur->next;
+	}
+}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

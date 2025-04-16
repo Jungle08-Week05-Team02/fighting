@@ -40,6 +40,9 @@ int main()
 {
 	LinkedList ll;
 	int c, i, j;
+	// c는 답변 선택하는 정수
+	// i는 연결리스트에 들어갈 정수
+	// j는 가장 최근에 리스트에 추가된 정수
 	c = 1;
 
 	//Initialize the linked list 1 as an empty linked list
@@ -88,9 +91,61 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+
+
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+	if (ll == NULL){
+		return -1;
+	}
+
+	ListNode *newnode = malloc(sizeof(ListNode));
+	ListNode *cur = ll->head;
+	int idx = 0;
+	
+	if (newnode == NULL){
+		puts("메모리 할당 실패");
+		return -1;
+	}
+	newnode->item = item;
+	newnode->next = NULL;
+	
+	//함수 안쓰기(o(n))
+	
+	//첫 요소 삽입이거나, 첫번째에 들어가야하는 경우
+	if (ll->size == 0 || item < ll->head->item){
+		newnode-> next = ll->head;
+		ll->head = newnode;
+		ll->size++;
+		return 0;
+	}
+
+	//리스트 순회, 다음 값이 나보다 큰 값 나오면 멈추기
+	while (cur -> next != NULL && cur->next->item <= item) {
+		cur = cur->next;
+		idx++;
+	}
+
+	if(item == cur->item)
+		return -1;
+
+	newnode -> next = cur -> next;
+	cur -> next = newnode;
+	ll -> size++;
+	
+	//함수 쓰기 (o(2n))
+
+	// while (cur != NULL && cur->item < item){
+	// 	cur = cur -> next;
+	// 	idx++;
+	// }
+	
+	// insertNode(ll, idx, item);
+	
+
+	return idx+1;
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

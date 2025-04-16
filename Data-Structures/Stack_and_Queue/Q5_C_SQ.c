@@ -64,6 +64,15 @@ int main()
 	q.ll.head = NULL;
 	q.ll.size = 0;
 
+		// 큐에 하드코딩으로 값 삽입 
+    
+		enqueue(&q, 1);    
+		enqueue(&q, 2);  
+		enqueue(&q, 3);   
+		enqueue(&q, 4);   
+		enqueue(&q, 5);   
+		
+
 
 	printf("1: Insert an integer into the Queue:\n");
 	printf("2: Recursively reverse the queue;\n");
@@ -109,7 +118,23 @@ int main()
 
 void recursiveReverse(Queue *q)
 {
-/* add your code here */
+	/* add your code here */
+	
+	// 0. 기저조건 설정, q의 head가 null을 가리킬 때,
+	// 1. dequeue로 값 빼두고 저장,
+	// 2. 끝까지 뺀 다음. 재귀호출 끝나면
+	// 3. enqueue로 저장해뒀던 값 추가
+	
+	int temp;
+
+	if (q->ll.head== NULL){
+		return;
+	}
+
+	temp = dequeue(q);
+	recursiveReverse(q);
+	enqueue(q, temp);
+
 }
 
 //////////////////////////////////////////////////////////////////

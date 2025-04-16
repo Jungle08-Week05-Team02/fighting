@@ -35,6 +35,32 @@ ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+// 더미 데이터 생성 함수
+void createDummyLists(LinkedList *ll1, LinkedList *ll2)
+{
+    int i;
+    ListNode *temp;
+    
+    // 첫 번째 연결 리스트 생성 (1, 2, 3)
+    for (i = 3; i >= 1; i--)
+    {
+        temp = (ListNode *)malloc(sizeof(ListNode));
+        temp->item = i;
+        temp->next = ll1->head;
+        ll1->head = temp;
+        ll1->size++;
+    }
+    
+    // 두 번째 연결 리스트 생성 (4, 5, 6, 7)
+    for (i = 7; i >= 4; i--)
+    {
+        temp = (ListNode *)malloc(sizeof(ListNode));
+        temp->item = i;
+        temp->next = ll2->head;
+        ll2->head = temp;
+        ll2->size++;
+    }
+}
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -50,6 +76,9 @@ int main()
 	//Initialize the linked list 2 as an empty linked list
 	ll2.head = NULL;
 	ll2.size = 0;
+
+	//더미데이터 생성
+	createDummyLists(&ll1, &ll2);
 
 	printf("1: Insert an integer to the linked list 1:\n");
 	printf("2: Insert an integer to the linked list 2:\n");
@@ -104,6 +133,43 @@ int main()
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
     /* add your code here */
+	// 1. temp를 선언하고 ll2의 head의 next를 가리킴
+	// 2. ll2의 head의 next가 ll1의 head의 next를 가리킴
+	// 3. ll1의 head의 next가 ll2의 head를 가리킴
+	// 4. ll2의 head가 temp를 가리킴.
+
+	/* add your code here */
+    // 두 리스트 중 하나라도 비어있으면 종료
+    if (ll1 == NULL || ll2 == NULL || ll1->head == NULL || ll2->head == NULL) {
+        return;
+    }
+    
+    // 현재 위치를 추적하는 포인터
+    ListNode *curr1 = ll1->head;
+    
+    // ll2가 비거나 ll1의 마지막에 도달할 때까지 반복
+    while (curr1 != NULL && ll2->head != NULL) {
+        // 1. temp를 선언하고 ll2의 head의 next를 가리킴
+        ListNode *temp = ll2->head->next;
+        
+        // 2. ll2의 head의 next가 ll1의 head의 next를 가리킴
+        ll2->head->next = curr1->next;
+        
+        // 3. ll1의 head의 next가 ll2의 head를 가리킴
+        curr1->next = ll2->head;
+        
+        // 4. ll2의 head가 temp를 가리킴
+        ll2->head = temp;
+        
+        // curr1을 방금 삽입한 노드로 이동
+        curr1 = curr1->next->next;
+        
+
+    
+    }
+
+	
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

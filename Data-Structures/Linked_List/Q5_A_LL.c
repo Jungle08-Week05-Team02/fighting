@@ -46,6 +46,8 @@ int main()
 	ll.head = NULL;
 	ll.size = 0;
 
+	
+
 	//Initialize the front linked list as an empty linked list
 	resultFrontList.head = NULL;
 	resultFrontList.size = 0;
@@ -57,6 +59,7 @@ int main()
 	printf("1: Insert an integer to the linked list:\n");
 	printf("2: Split the linked list into two linked lists, frontList and backList:\n");
 	printf("0: Quit:\n");
+	c = 1;
 
 	while (c != 0)
 	{
@@ -103,6 +106,30 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
+	// 1. size를 2로 나눈 몫
+	// 2. 몫만큼 for문 으로 순회, cur로 나눠지는 노드 가리키기
+	// 3. ll->head에 frontlist 연결, cur로 backlist연결,
+	//
+
+	int midi = (ll->size +1) / 2;
+
+
+	ListNode *cur = ll->head;
+	
+	resultFrontList->head = ll->head;
+	resultFrontList->size = midi;
+
+	for (int i = 0; i < midi - 1; i++){
+		cur = cur->next;
+	}
+
+	resultBackList->head = cur->next;
+	resultBackList->size = ll->size - midi;
+
+	cur->next = NULL;
+	ll->head = NULL;
+	ll->size = 0;
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

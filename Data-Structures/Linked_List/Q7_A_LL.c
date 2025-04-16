@@ -47,6 +47,30 @@ int main()
 	ll.head = NULL;
 	ll.size = 0;
 
+	    // 정수 1, 2, 3, 4, 5를 저장할 노드들을 동적 할당하여 생성
+		ListNode *node1 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node2 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node3 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node4 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node5 = (ListNode *)malloc(sizeof(ListNode));
+	
+		// 각 노드에 값 할당
+		node1->item = 1;
+		node2->item = 2;
+		node3->item = 3;
+		node4->item = 4;
+		node5->item = 5;
+	
+		// 노드들을 연결하여 리스트 구성
+		node1->next = node2;
+		node2->next = node3;
+		node3->next = node4;
+		node4->next = node5;
+		node5->next = NULL;
+	
+		// LinkedList의 헤드를 첫 번째 노드로 설정하고, 크기를 업데이트
+		ll.head = node1;
+		ll.size = 5;
 
 	printf("1: Insert an integer to the linked list:\n");
 	printf("2: Reversed the linked list:\n");
@@ -87,7 +111,22 @@ int main()
 
 void RecursiveReverse(ListNode **ptrHead)
 {
-	/* add your code here */
+	// 1. 기저 조건: 리스트가 비어있거나 노드가 하나만 있으면 그대로 반환
+	if (*ptrHead == NULL || (*ptrHead)->next == NULL)
+	return;
+	// 2. 첫 번째 노드를 first, 그 다음 노드부터의 리스트를 rest로 분리
+	ListNode *first = *ptrHead;
+	ListNode *rest = first->next;
+	// 3. rest(나머지 리스트)에 대해 재귀 호출로 뒤집기
+	RecursiveReverse(&rest);
+
+	// 4. 재귀 호출 후, 'first' 노드를 뒤집힌 리스트의 가장 뒤쪽에 연결하기 위해서
+	//    먼저, 현재 first의 바로 다음 노드(기존 first->next)의 next가 first를 가리키도록 함
+	first->next->next = first;
+	// 5. first의 next를 NULL로 설정하여 기존 연결을 끊음 (first가 새 리스트의 마지막 노드가 됨)
+	first->next = NULL;
+	// 6. 최종적으로, ptrHead가 새로운 리스트의 헤드(rest)를 가리키도록 업데이트
+	*ptrHead = rest;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

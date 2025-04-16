@@ -59,6 +59,32 @@ int main()
 	ll.head = NULL;
 	ll.size = 0;
 
+		// 정수 1, 2, 3, 4, 5를 저장할 노드들을 동적 할당하여 생성
+		ListNode *node1 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node2 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node3 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node4 = (ListNode *)malloc(sizeof(ListNode));
+		ListNode *node5 = (ListNode *)malloc(sizeof(ListNode));
+	
+		// 각 노드에 값 할당
+		node1->item = 1;
+		node2->item = 3;
+		node3->item = 5;
+		node4->item = 6;
+		node5->item = 7;
+	
+		// 노드들을 연결하여 리스트 구성
+		node1->next = node2;
+		node2->next = node3;
+		node3->next = node4;
+		node4->next = node5;
+		node5->next = NULL;
+	
+		// LinkedList의 헤드를 첫 번째 노드로 설정하고, 크기를 업데이트
+		ll.head = node1;
+		ll.size = 5;
+	
+
 	// Initalize the stack as an empty stack
 	s.ll.head = NULL;
 	s.ll.size = 0;
@@ -114,6 +140,15 @@ int main()
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
     /* add your code here */
+	ListNode *temp = ll->head;
+	
+	
+	while (temp != NULL)
+	{
+		push(s, temp->item);
+		temp = temp->next;
+	}
+	
 }
 
 void removeEvenValues(Stack *s)

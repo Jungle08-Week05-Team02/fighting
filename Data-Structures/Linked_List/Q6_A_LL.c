@@ -89,6 +89,41 @@ int main()
 int moveMaxToFront(ListNode **ptrHead)
 {
     /* add your code here */
+	// 1. cur 포인터와 max pointer를 만들고 순회.
+	// 2. cur->size 값을 max에 두고 max값이 갱신되면 maxpointer가 cur을 가리키도록.
+	// 3. temp 포인터 선언 후 temp->next가 maxpointer가 되기 전까지 루프
+	// 4. temp->next = maxpointer->next
+	// 5. maxpointer->next가 head를 가리키도록
+	// 6. head가 maxpointer를 가리키도록
+	
+	ListNode *cur = *ptrHead;
+	ListNode *max_pointer = *ptrHead;
+
+	int max = 0;
+
+	while (cur->next != NULL){
+		if (max < cur->item){
+			max = cur->item;
+			max_pointer = cur;
+			cur = cur->next;
+		}else{
+			cur = cur->next;
+		}
+	}
+
+	ListNode *temp = *ptrHead;
+
+	while(temp->next != max_pointer){
+		temp = temp->next;
+	}
+
+	temp->next = max_pointer->next;
+	max_pointer->next = *ptrHead;
+	*ptrHead = max_pointer;
+
+	
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////
