@@ -54,6 +54,26 @@ int main()
 	LinkedList ll;
 	Queue q;
 
+	//Queue q;는 내부에 LinkedList 하나를 멤버로 가지는 구조체이고, 그 LinkedList는 다시 head와 size를 멤버로 가지는 구조체다.
+	
+	// q ───────────────┐
+    //              ▼
+    //     +------------------+
+    //     | LinkedList ll    |   ← 구조체 변수 q 안에 포함됨
+    //     |  ┌────────────┐  |
+    //     |  │ int size   │  |
+    //     |  │ ListNode*  │──┼──▶ [노드들 시작 주소]  ← 이게 head
+    //     +------------------+
+	
+	// q	Queue 구조체 (로컬 변수)
+	// q.ll	LinkedList 구조체
+	// q.ll.head	첫 번째 노드를 가리키는 포인터
+	// q.ll.size	큐에 들어있는 노드의 개수
+
+	// enqueue(&q, 10);           // LinkedList에 10 삽입
+	// printList(&(q.ll));        // 연결 리스트 출력
+	// q.ll.head->item == 10;     // 첫 번째 노드 값 접근
+
 	c = 1;
 
 	// Initialize the linked list as an empty linked list
@@ -117,23 +137,101 @@ int main()
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
 	/* add your code here */
+	// 연결 리스트의 모든 값을 순서대로 큐에 삽입한다.
+	// 큐가 비어있지 않으면 먼저 비운 뒤 삽입을 진행한다.
+	// 연결 리스트의 첫 번째 노드부터 차례로 enqueue한다.
+
+	if (ll == NULL || ll->head == NULL) return;
+	if (!isEmptyQueue(q)) // 큐가 비어있지 않으면(0) 실행(not 연산 -> 1)
+	{
+		removeAllItemsFromQueue(q);
+	}
+	ListNode *cur = ll->head;
+	while (cur != NULL)
+	{
+		enqueue(q, cur->item);
+		cur = cur -> next;
+	}
+
 }
 
 void removeOddValues(Queue *q)
 {
 	/* add your code here */
+	// 큐에 있는 홀수 값 노드들을 모두 제거한다.
+	// 첫 노드부터 끝까지 한 번 순회하면서 조건을 만족하면 삭제하고 연결을 재구성한다.
+	// 노드 제거 시에는 next를 먼저 저장하고, 삭제 후 cur을 진행한다.
+	
+	// . 연산자 : 구조체 변수에 직접 접근할 때 사용
+	// -> 연산자 : 구조체 포인터가 가리키는 구조체의 멤버에 접근할 때 사용
+
+	// q.ll.head	Queue q;에서 내부 head 접근
+	// q->ll.head	Queue *q;일 때 내부 head 접근
+	// (*q).ll.head	Queue *q;의 일반적인 접근 방식
+
+	// if(q->ll == NULL || q->ll->head == NULL) return; // q->ll은 LinkedList 구조체 자체이므로 포인터처럼 비교 불가
+    if (q == NULL || q->ll.head == NULL) return;
+    ListNode *cur = q->ll.head;
+    ListNode *prev = NULL;
+    
+    while (cur != NULL)
+    {
+        ListNode *next = cur->next;  // 다음 노드를 미리 저장
+        if (cur->item % 2 == 1)  // 홀수면 삭제
+        {
+            if (prev == NULL) // 첫 번째 노드가 홀수일 경우
+            {
+                q->ll.head = next;
+                free(cur);
+            }
+            else // 중간 이후 홀수 노드 삭제
+            {
+                prev->next = next;
+                free(cur);
+            }
+            q->ll.size--;  // 삭제했으므로 사이즈 감소
+        }
+        else
+        {
+            prev = cur; // 홀수가 아니면 prev만 전진
+        }
+        cur = next;  // 다음 노드로 진행
+    }
 }
+
+// removeNode 함수 사용 버전
+// void removeOddValues(Queue *q)
+// {
+//     if (q == NULL || q->ll.head == NULL) return;
+//     int i = 0;
+//     int size = q->ll.size;
+
+//     while (i < size)
+//     {
+//         ListNode *node = findNode(&(q->ll), i);
+//         if (node->item % 2 == 1)  // 홀수면 삭제
+//         {
+//             removeNode(&(q->ll), i);
+//             size--;  // 삭제하면 전체 사이즈도 줄고 인덱스는 그대로 (다음 노드가 당겨지니까)
+//         }
+//         else
+//         {
+//             i++;  // 삭제 안했으면 다음 인덱스로 이동
+//         }
+//     }
+// }
+
 
 //////////////////////////////////////////////////////////////////////////////////
 
 void enqueue(Queue *q, int item) {
-	insertNode(&(q->ll), q->ll.size, item);
+	insertNode(&(q->ll), q->ll.size, item); // insertNode(LinkedList *ll, int index, int value)
 }
 
 int dequeue(Queue *q) {
 	int item;
 
-	if (!isEmptyQueue(q)) {
+	if (!isEmptyQueue(q)) { //  큐가 비어있지 않으면(0) 실행(not 연산 -> 1)
 		item = ((q->ll).head)->item;
 		removeNode(&(q->ll), 0);
 		return item;
