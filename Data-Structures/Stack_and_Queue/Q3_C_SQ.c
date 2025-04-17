@@ -103,8 +103,59 @@ int main()
 
 int isStackPairwiseConsecutive(Stack *s)
 {
-  /* add your code here */
+	/* add your code here */
+  	// 스택에 저장된 값들이 위에서부터 2개씩 짝지었을 때 모두 연속된(consecutive) 값인지 검사한다.
+	// 모든 쌍 (top → bottom) 에 대해 abs(a - b) == 1 이면 pairwise consecutive이다.
+	// 홀수 개의 원소가 있다면 검사 실패 (짝이 안 맞음 → return 0)
+	// 검사 중 스택의 원소는 push/pop만으로 다뤄야 하며, 검사가 끝나면 스택은 원래 상태로 복구되어야 한다.
+
+	if (s == NULL || isEmptyStack(s)) return 1;
+    if (s->ll.size % 2 != 0) return 0;
+
+	Stack temp;
+	temp.ll.head = NULL;
+	temp.ll.size = 0;
+	int result = 1;
+
+	while (!isEmptyStack(s))
+	{
+		// temp에 맨위 원소가 가장 먼저 들어갔다가 복구될땐 가장 늦게 (맨 위로) 들어감
+		int a = pop(s);
+		push(&temp, a);
+		int b = pop(s);
+		push(&temp, b);
+		
+		if (abs(a-b) != 1)
+		{
+			result = 0;
+		}
+	}
+
+	while (!isEmptyStack(&temp))
+	{
+		push(s, pop(&temp));
+	}
+
+	return result;
 }
+
+// push/pop으로 안 푼 버전 (문제 조건 위반)
+
+// int isStackPairwiseConsecutive(Stack *s)
+// {
+// 	if (s == NULL || s->ll.head == NULL) return;
+// 	if (s->ll.size % 2 == 1) return 0;
+// 	ListNode *cur = s->ll.head;
+// 	while (cur != NULL)
+// 	{
+// 		if (abs(cur->item - cur->next->item) != 1)
+// 		{
+// 			return 0;
+// 		}
+// 		cur = cur->next->next;
+// 	}
+// 	return 1;
+// }
 
 //////////////////////////////////////////////////////////////////////////////////
 

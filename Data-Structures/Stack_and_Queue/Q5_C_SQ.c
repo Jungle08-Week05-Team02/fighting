@@ -109,7 +109,18 @@ int main()
 
 void recursiveReverse(Queue *q)
 {
-/* add your code here */
+	/* add your code here */
+	// 주어진 큐의 원소들을 재귀적으로 역순으로 바꾼다.
+	// 큐의 front부터 하나씩 꺼낸 후 재귀 호출로 나머지를 뒤집고,
+	// 꺼낸 값을 다시 큐의 rear에 삽입하여 순서를 반전시킨다.
+	// 큐를 다룰 때는 반드시 dequeue와 enqueue만 사용해야 하며,
+	// 직접 연결 리스트를 건드리면 안 된다.
+
+	if(q == NULL || q->ll.head == NULL) return; // 종료 조건
+
+	int temp = dequeue(q);
+	recursiveReverse(q);
+	enqueue(q, temp);
 }
 
 //////////////////////////////////////////////////////////////////

@@ -66,7 +66,7 @@ int main()
 	s.ll.size = 0;
 
 	printf("1: Insert an integer into the stack:\n");
-	printf("3: Remove values until the given value;\n");
+	printf("2: Remove values until the given value;\n");
 	printf("0: Quit:\n");
 
 
@@ -111,7 +111,28 @@ int main()
 
 void removeUntil(Stack *s, int value)
 {
-/* add your code here */
+	/* add your code here */
+	// 주어진 값이 스택에서 처음 나올 때까지 pop을 반복한다.
+	// 해당 값이 스택의 top에 오도록 만들며, 그 이후는 남겨둔다.
+	// 값이 스택에 없다면 스택이 완전히 비워진다.
+
+	// 원래 작성했던 코드
+	// Use-after-free 가능성 : cur = cur->next로 이동한 뒤 pop(s) 호출하면, 이전에 이동했던 cur가 가리키던 메모리가 해제됨
+	// 스택의 top과 cur가 비동기 : cur는 순차적으로 따라가지만, pop(s)은 s->ll.head를 바로 변경하니까, cur는 실제 상태와 다르게 엉뚱한 노드를 따라갈 수 있음
+	// 실행 환경에 따라 세그폴트 : 테스트 환경에서는 우연히 잘 돌아갈 수 있지만, 조금만 복잡한 입력이나 최적화 상황에서는 예외가 발생할 수 있음
+	// if (s == NULL || s->ll.head == NULL) return;
+	// ListNode *cur = s->ll.head;
+	// while (cur != NULL && cur->item != value){
+	// 	cur = cur->next;
+	// 	pop(s);
+	// }
+
+	// 매번 pop 전후의 head 상태를 동기화된 상태에서 직접 확인하고 더 이상 노드를 직접 추적할 필요도 없기 때문에 가장 안전하고 예측 가능한 방식
+	// 외부 포인터 쓰지 말고 , s->ll.head 기준으로 매번 상태를 확인하며 pop() 하는 방식으로 수정하는 게 좋음
+	if (s == NULL || s->ll.head == NULL) return;
+    while (!isEmptyStack(s) && peek(s) != value) {
+        pop(s);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////

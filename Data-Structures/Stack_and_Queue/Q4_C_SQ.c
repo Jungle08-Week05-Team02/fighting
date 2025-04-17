@@ -112,7 +112,27 @@ int main()
 
 void reverse(Queue *q)
 {
-/* add your code here */
+	/* add your code here */
+	// 큐의 모든 값을 스택을 이용해 반대로 뒤집는다 (enqueue/dequeue, push/pop만 사용).
+	// 스택은 시작 시 비워둬야 함 (초기화 필요), 원래 큐에 반전된 순서로 복원됨
+
+	if (q==NULL || q->ll.head == NULL) return;
+	
+	Stack s;
+	s.ll.head = NULL;
+	s.ll.size = 0;
+	
+	if (!isEmptyStack(&(s))){
+		removeAllItems(&(s.ll));
+	}
+
+	while (!isEmptyQueue(q)){
+		push(&s, dequeue(q));
+	}
+
+	while (!isEmptyStack(&s)){
+		enqueue(q, pop(&s));
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

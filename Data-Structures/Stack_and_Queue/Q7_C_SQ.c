@@ -104,8 +104,73 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	/* add your code here */
+	// 주어진 괄호 문자열이 올바르게 열고 닫혔는지 검사한다.
+	// 괄호 종류는 (), [], {} 이며, 올바른 짝과 순서로 닫혀야 balanced로 인정된다.
+	// 여는 괄호는 스택에 push, 닫는 괄호는 스택의 top과 짝이 맞는지 확인 후 pop.
+	// 검사 후 스택이 비어있으면 balanced, 남아있으면 not balanced.
+	// 예: "{[]()[]}" → balanced, "[({{)])" → not balanced
+
+	Stack s;
+    s.ll.head = NULL;
+    s.ll.size = 0;
+
+    for (int i = 0; expression[i] != '\0'; i++) {
+        
+		char c = expression[i];
+        
+		if (c == '(' || c == '[' || c == '{') { // 여는 괄호는 무조건 스택에 넣기
+            push(&s, c); 
+        } 
+		
+		else if (c == ')' || c == ']' || c == '}') { // 닫는 괄호는 두 가지를 검사
+
+            // 1) 스택이 비어 있는데 닫는 괄호가 나왔다면 에러
+			if (isEmptyStack(&s)) return 1;
+			
+			// 2) 스택에서 맨 위의 여는 괄호를 꺼내서(pop), 지금 닫는 괄호랑 짝이 맞지 않다면 에러
+			// pop(&s)는 실제로는 정수형 int 값을 반환함(스택에 char 문자를 저장했기 때문에 내부적으로는 ASCII 코드 정수 값임)
+			// int → char로 변환하면, ASCII 값 → 문자로 자동 형변환
+            char top = pop(&s);
+            if ((c == ')' && top != '(') ||
+                (c == ']' && top != '[') ||
+                (c == '}' && top != '{')) {
+                return 1;
+            }
+        }
+    }
+
+    return isEmptyStack(&s) ? 0 : 1; // 삼항연산자 (조건식 ? 참일때값 : 거짓일때값;)
 }
+
+int balanced(char *expression)
+{
+	Stack s;
+    s.ll.head = NULL;
+    s.ll.size = 0;
+
+    for (int i = 0; expression[i] != '\0'; i++) {
+        
+		char c = expression[i];
+        
+		if (c == '(' || c == '[' || c == '{')
+		{ 
+            push(&s, c); 
+        } 
+		
+		else if (c == ')' || c == ']' || c == '}') 
+		{
+			if (isEmptyStack(&s)) return 1;
+
+            char top = pop(&s);
+            if ((c == ')' && top != '(') || (c == ']' && top != '[') || (c == '}' && top != '{')) return 1;
+        }
+    }
+
+    return isEmptyStack(&s) ? 0 : 1;
+}
+
+
 
 ////////////////////////////////////////////////////////////
 
