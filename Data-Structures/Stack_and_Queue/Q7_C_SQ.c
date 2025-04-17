@@ -143,35 +143,6 @@ int balanced(char *expression)
     return isEmptyStack(&s) ? 0 : 1; // 삼항연산자 (조건식 ? 참일때값 : 거짓일때값;)
 }
 
-int balanced(char *expression)
-{
-	Stack s;
-    s.ll.head = NULL;
-    s.ll.size = 0;
-
-    for (int i = 0; expression[i] != '\0'; i++) {
-        
-		char c = expression[i];
-        
-		if (c == '(' || c == '[' || c == '{')
-		{ 
-            push(&s, c); 
-        } 
-		
-		else if (c == ')' || c == ']' || c == '}') 
-		{
-			if (isEmptyStack(&s)) return 1;
-
-            char top = pop(&s);
-            if ((c == ')' && top != '(') || (c == ']' && top != '[') || (c == '}' && top != '{')) return 1;
-        }
-    }
-
-    return isEmptyStack(&s) ? 0 : 1;
-}
-
-
-
 ////////////////////////////////////////////////////////////
 
 void removeAllItemsFromStack(Stack *s)
